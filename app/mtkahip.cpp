@@ -216,10 +216,10 @@ int main(int argn, char **argv) {
 
         std::cout <<  "performing partitioning!"  << std::endl;
 
-//        std::streambuf* backup = std::cout.rdbuf();
-//        std::ofstream ofs;
-//        ofs.open("/dev/null");
-//        std::cout.rdbuf(ofs.rdbuf());
+        std::streambuf* backup = std::cout.rdbuf();
+        std::ofstream ofs;
+        ofs.open("/dev/null");
+        std::cout.rdbuf(ofs.rdbuf());
 
 
         if(partition_config.time_limit == 0) {
@@ -245,8 +245,8 @@ int main(int argn, char **argv) {
         }
 
         // ******************************* done partitioning *****************************************       
-//        ofs.close();
-//        std::cout.rdbuf(backup);
+        ofs.close();
+        std::cout.rdbuf(backup);
         //std::cout << "imbalance\t" << partition_config.imbalance / 100.0 << std::endl;
         std::cout <<  "time spent for partitioning " << t.elapsed()  << std::endl;
        
