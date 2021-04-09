@@ -81,8 +81,6 @@ void initial_partitioning::perform_initial_partitioning(const PartitionConfig & 
                 reps_to_do = std::min((int)config.minipreps, (int)reps_to_do);
         }
 
-        PRINT(std::cout << "no of initial partitioning repetitions = " << reps_to_do                     << std::endl;);
-        PRINT(std::cout << "no of nodes for partition = "              << G.number_of_nodes()            << std::endl;);
         if(!((config.graph_allready_partitioned && config.no_new_initial_partitioning) || config.omit_given_partitioning)) {
                 for(unsigned int rep = 0; rep < reps_to_do; rep++) {
                         unsigned seed = random_functions::nextInt(0, std::numeric_limits<int>::max()); 
@@ -92,8 +90,6 @@ void initial_partitioning::perform_initial_partitioning(const PartitionConfig & 
                         
                         EdgeWeight cur_cut = qm.edge_cut(G, partition_map); 
                         if(cur_cut < best_cut) {
-                                PRINT(std::cout << "log>" << "improved the current initial partitiong from " << best_cut 
-                                                << " to " << cur_cut  << std::endl;)
 
                                 forall_nodes(G, n) {
                                         best_map[n] = partition_map[n];
@@ -111,22 +107,15 @@ void initial_partitioning::perform_initial_partitioning(const PartitionConfig & 
 
         G.set_partition_count(config.k);
 
-        PRINT(std::cout << "initial partitioning took " << t.elapsed()                << std::endl;)
-        PRINT(std::cout << "log>"                       << "current initial balance " << qm.balance(G) << std::endl;)
 
         if(config.initial_partition_optimize || config.combine) {
                 initial_refinement iniref;
                 iniref.optimize(config, G, best_cut);
         }
 
-        PRINT(std::cout << "log>" << "final current initial partitiong from " << best_cut
-                        << " to " << best_cut                                 << std::endl;)
 
         if(!(config.graph_allready_partitioned && config.no_new_initial_partitioning)) {
-                PRINT(std::cout << "finalinitialcut " << best_cut                         << std::endl;)
-                PRINT(std::cout << "log>"             << "final current initial balance " << qm.balance(G) << std::endl;)
         }
-        std::cout << "initial cut\t" << best_cut << std::endl;
         ASSERT_TRUE(graph_partition_assertions::assert_graph_has_kway_partition(config, G));
 
         delete[] partition_map;

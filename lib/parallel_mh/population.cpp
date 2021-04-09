@@ -50,17 +50,10 @@ void population::createIndividuum(const PartitionConfig & config,
         graph_partitioner partitioner;
         quality_metrics qm;
 
-        std::ofstream ofs;
-        std::streambuf* backup = std::cout.rdbuf();
-        ofs.open("/dev/null");
-        std::cout.rdbuf(ofs.rdbuf()); 
-
         timer t; t.restart();
 
         if(config.buffoon) { // graph is weighted -> no negative cycle detection yet
                 partitioner.perform_partitioning(copy, G);
-                ofs.close();
-                std::cout.rdbuf(backup);
         } else {
                 if(config.kabapE) {
                         double real_epsilon        = config.imbalance/100.0;
@@ -71,8 +64,6 @@ void population::createIndividuum(const PartitionConfig & config,
 
                         partitioner.perform_partitioning(copy, G);
 
-                        ofs.close();
-                        std::cout.rdbuf(backup);
 
                         complete_boundary boundary(&G);
                         boundary.build();
@@ -86,8 +77,6 @@ void population::createIndividuum(const PartitionConfig & config,
                         cr.perform_refinement(copy, G, boundary);
                 } else {
                         partitioner.perform_partitioning(copy, G);
-                        ofs.close();
-                        std::cout.rdbuf(backup);
                 }
         }
 
@@ -240,7 +229,6 @@ void population::combine(const PartitionConfig & partition_config,
 	} else {
 	        createIndividuum(config, G, output_ind, true);
 	}
-        std::cout <<  "objective mh " <<  output_ind.objective << std::endl;
 }
 
 void population::combine_cross(const PartitionConfig & partition_config, 
@@ -271,16 +259,8 @@ void population::combine_cross(const PartitionConfig & partition_config,
         cross_config.combine                              = false;
         cross_config.graph_allready_partitioned           = false;
 
-	std::ofstream ofs;
-	std::streambuf* backup = std::cout.rdbuf();
-        ofs.open("/dev/null");
-        std::cout.rdbuf(ofs.rdbuf()); 
-
         graph_partitioner partitioner;
         partitioner.perform_partitioning(cross_config, G);
-
-        ofs.close();
-        std::cout.rdbuf(backup);
 
         forall_nodes(G, node) {
                 G.setSecondPartitionIndex(node, G.getPartitionIndex(node));
@@ -292,10 +272,6 @@ void population::combine_cross(const PartitionConfig & partition_config,
         config.no_new_initial_partitioning = true;
 
         createIndividuum(config, G, output_ind, true);
-        std::cout << "objective cross " << output_ind.objective
-                  << " k "              << kfactor
-                  << " imbal "          << larger_imbalance
-                  << " impro "          << (first_ind.objective - output_ind.objective) << std::endl;
 
 }
 
@@ -417,13 +393,10 @@ void population::apply_fittest( graph_access & G, EdgeWeight & objective ) {
 
 void population::print() {
         int rank = MPI::COMM_WORLD.Get_rank();
-        std::cout <<  "rank " <<  rank << " fingerprint ";
 
         for( unsigned i = 0; i < m_internal_population.size(); i++) {
-                std::cout <<  m_internal_population[i].objective << " ";
-        }         
+        }
 
-        std::cout <<  std::endl;
 }
 
 void population::write_log(std::string & filename) {

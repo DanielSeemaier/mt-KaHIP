@@ -596,10 +596,6 @@ public:
                 ht_size = _ht_size;
 
                 update_key_bits_num();
-                std::cout << "strategy\t" << (strategy == strategy_type::increase ? "increase" : "decrease")
-                          << std::endl;
-                std::cout << "ht_size\t" << ht_size << std::endl;
-                std::cout << "key_bits_num\t" << (int) key_bits_num << std::endl;
         }
 
 private:
@@ -685,24 +681,9 @@ public:
                         table[i] = rnd(mt);
                 }
 
-                std::cout << "Constructed tabular hash function:" << std::endl;
-                std::cout << "max_full_key_bits_num\t" << (int)max_full_key_bits_num << std::endl;
-                std::cout << "total_table_size\t" << total_table_size << std::endl;
-                std::cout << "strategy\t" << (strategy == strategy_type::increase ? "increase" : "decrease")
-                          << std::endl;
-                std::cout << "Ht size\t" << ht_size << std::endl;
-                std::cout << "min_key_bits_num\t" << (int) min_key_bits_num << std::endl;
-                std::cout << "max_key_bits_num\t" << (int) max_key_bits_num << std::endl;
-                std::cout << "total_bits_num\t" << (int) total_bits_num << std::endl;
-                std::cout << "num_tables\t" << (int) num_tables << std::endl;
-                std::cout << "key_bits_num\t" << (int) key_bits_num << std::endl;
-                std::cout << "key_mask\t" << std::bitset<32>(key_mask) << std::endl;
 
                 size_t shift = key_bits_num;
                 for (size_t i = 0; i < num_tables; ++i) {
-                        std::cout << "table " << i + 1 << " num bits \t" << (int) table_bits_num[i] << std::endl;
-                        std::cout << "table " << i + 1 << " mask \t" << std::bitset<32>(table_mask[i] << shift)
-                                  << std::endl;
                         shift += table_bits_num[i];
                 }
         }

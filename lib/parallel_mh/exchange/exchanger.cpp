@@ -21,7 +21,6 @@ exchanger::exchanger() {
         if(comm_size > 2) m_max_num_pushes = ceil(log2(comm_size));
         else              m_max_num_pushes = 1;
 
-        std::cout <<  "max num pushes " <<  m_max_num_pushes  << std::endl;
 
         m_allready_send_to.resize(comm_size);
 
@@ -99,7 +98,6 @@ void exchanger::quick_start( PartitionConfig & config, graph_access & G, populat
         int comm_size              = MPI::COMM_WORLD.Get_size();
         unsigned no_of_individuals = ceil(config.mh_pool_size / (double)comm_size) - 1;
 
-        std::cout <<  "creating " <<  no_of_individuals << std::endl;
 
         for(unsigned i = 0; i < no_of_individuals; i++) {
                 PartitionConfig copy            = config;
@@ -166,9 +164,6 @@ void exchanger::push_best( PartitionConfig & config, graph_access & G, populatio
                 m_allready_send_to[rank] = true;
                 m_cur_num_pushes         = 0;
 
-                std::cout << "rank " <<  rank 
-                          << ": pool improved *************************************** " 
-                          <<  best_ind.objective << std::endl;
         }
 
         bool something_todo = false;
@@ -245,9 +240,6 @@ void exchanger::recv_incoming( PartitionConfig & config, graph_access & G, popul
 
                 if( (unsigned)out.objective < (unsigned)m_prev_best_objective) {
                         m_prev_best_objective = out.objective;
-                        std::cout << "rank " <<  rank 
-                                  <<   ": pool improved (inc) **************************************** " 
-                                  <<  out.objective << std::endl;
 
                         for( unsigned i = 0; i < m_allready_send_to.size(); i++) {
                                 m_allready_send_to[i] = false;

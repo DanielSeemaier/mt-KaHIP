@@ -100,7 +100,6 @@ EdgeWeight quality_metrics::edge_cut_connected(graph_access & G, int * partition
         } endfor
 
 
-        std::cout <<  "number of connected comp " <<  size_right.size()  << std::endl;
         if( size_right.size() == G.get_partition_count()) {
                 return edgeCut/2;
         } else {

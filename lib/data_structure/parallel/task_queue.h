@@ -277,8 +277,6 @@ static void test_task_queue(size_t num_tests) {
         for (size_t num_test = 0; num_test < num_tests; ++num_test) {
                 ALWAYS_ASSERT(queue.empty());
 
-                std::cout << "Test " << num_test << " task_queue with " << num_threads << " threads" << std::endl;
-
                 std::vector<std::vector<int>> input(num_threads);
                 size_t size_per_thread_min = 1000;
                 size_t size_per_thread_max = 5000;

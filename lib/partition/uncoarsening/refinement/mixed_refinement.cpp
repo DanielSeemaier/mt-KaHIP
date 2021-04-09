@@ -52,15 +52,12 @@ EdgeWeight mixed_refinement::perform_refinement(PartitionConfig & config, graph_
                         EdgeWeight old_cut = 0;
                         if (config.check_cut) {
                                 old_cut = qm.edge_cut(G);
-                                std::cout << "before\t" << old_cut << std::endl;
                         }
                         EdgeWeight improvement = kway->perform_refinement(config, G, boundary);
                         overall_improvement += improvement;
 
                         if (config.check_cut) {
                                 EdgeWeight new_cut = qm.edge_cut(G);
-                                std::cout << "after\t" << new_cut << std::endl;
-                                std::cout << "improvement\t" << improvement << std::endl;
                                 ALWAYS_ASSERT(old_cut - new_cut == improvement);
                         }
 
@@ -77,8 +74,6 @@ EdgeWeight mixed_refinement::perform_refinement(PartitionConfig & config, graph_
 //                        if (config.check_cut) {
 //                                old_cut = qm.edge_cut(G);
 //                                old_balance = qm.balance(G);
-//                                std::cout << "before cut\t" << old_cut << std::endl;
-//                                std::cout << "balance before\t" << old_balance << std::endl;
 //                        }
 //
 //
@@ -90,9 +85,6 @@ EdgeWeight mixed_refinement::perform_refinement(PartitionConfig & config, graph_
 //                        if (config.check_cut) {
 //                                EdgeWeight new_cut = qm.edge_cut(G);
 //                                double new_balance = qm.balance(G);
-//                                std::cout << "after cut\t" << new_cut << std::endl;
-//                                std::cout << "after balance\t" << new_balance << std::endl;
-//                                std::cout << "improvement\t" << improvement << std::endl;
 //                                ALWAYS_ASSERT(old_cut - new_cut == improvement);
 //                        }
 //

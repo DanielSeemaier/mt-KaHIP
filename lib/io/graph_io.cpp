@@ -199,7 +199,6 @@ int graph_io::readGraphWeighted(graph_access & G, std::string filename) {
 
 void graph_io::writePartition(graph_access & G, std::string filename) {
         std::ofstream f(filename.c_str());
-        std::cout << "writing partition to " << filename << " ... " << std::endl;
 
         forall_nodes(G, node) {
                 f << G.getPartitionIndex(node) <<  std::endl;

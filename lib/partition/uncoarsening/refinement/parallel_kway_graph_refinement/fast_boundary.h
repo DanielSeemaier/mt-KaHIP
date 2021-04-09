@@ -167,7 +167,6 @@ public:
 
                 std::vector<NodeID> expected_boundary;
                 expected_boundary.reserve(m_boundary.size());
-                std::cout << "Boundary diff: " << std::endl;
                 forall_nodes(m_G, n) {
                         PartitionID cur_block = m_G.getPartitionIndex(n);
                         bool boundary = false;
@@ -183,20 +182,14 @@ public:
                         if (boundary) {
                                 expected_boundary.push_back(n);
                                 if (!m_boundary.contains(n)) {
-                                        std::cout << "(" << n << ", FN) ";
                                 }
                         }
                         if (!boundary) {
                                 if (m_boundary.contains(n)) {
-                                        std::cout << "(" << n << ", FP) ";
                                 }
                         }
                 } endfor
-                std::cout << std::endl;
-                std::cout << "check size = " << m_boundary.size() << std::endl;
                 if (expected_boundary != this_boundary) {
-                        std::cout << "expected size = " << expected_boundary.size() << std::endl;
-                        std::cout << "this size = " << this_boundary.size() << std::endl;
                         ALWAYS_ASSERT(expected_boundary == this_boundary);
                 }
         }
@@ -303,12 +296,9 @@ public:
                 for (size_t i = 0; i < parallel::g_thread_pool.NumThreads(); ++i) {
                         futures_other.push_back(parallel::g_thread_pool.Submit(i, task_copy_to_hash_tables, i + 1));
                 }
-                std::cout << task_copy_to_hash_tables(0) << " ";
 
                 std::for_each(futures_other.begin(), futures_other.end(), [&](auto& future){
-                        std::cout << future.get() << " ";
                 });
-                std::cout << std::endl;
                 CLOCK_END("Copy to hash table");
         }
 
@@ -339,7 +329,6 @@ public:
 
                 std::vector<NodeID> expected_boundary;
                 expected_boundary.reserve(size);
-                std::cout << "Boundary diff: " << std::endl;
                 forall_nodes(m_G, n) {
                         PartitionID cur_block = m_G.getPartitionIndex(n);
                         bool boundary = false;
@@ -356,19 +345,13 @@ public:
                         if (boundary) {
                                 expected_boundary.push_back(n);
 //                                if (!m_boundaries_per_thread[num_hash_table(n)].get().contains(n)) {
-//                                     std::cout << "! " << n << " ";
 //                                }
                         } else {
 //                                if (m_boundaries_per_thread[num_hash_table(n)].get().contains(n)) {
-//                                        std::cout << n << " ";
 //                                }
                         }
                 } endfor
-                std::cout << std::endl;
-                std::cout << "check size = " << size << std::endl;
                 if (expected_boundary == this_boundary) {
-                        std::cout << "expected size = " << expected_boundary.size() << std::endl;
-                        std::cout << "this size = " << this_boundary.size() << std::endl;
                         ALWAYS_ASSERT(expected_boundary == this_boundary);
                 }
         }
@@ -608,7 +591,6 @@ public:
                                 });
                         }
                 }
-                std::cout << "Boundary size\t" << m_ht_handles[0].get().element_count_approx() << std::endl;
         }
 
         const concurrent_ht_handle_type& operator[] (uint32_t thread_id) const {
@@ -634,7 +616,6 @@ public:
 
                 std::vector<NodeID> expected_boundary;
                 expected_boundary.reserve(size);
-                std::cout << "Boundary diff: " << std::endl;
                 forall_nodes(m_G, n) {
                         PartitionID cur_block = m_G.getPartitionIndex(n);
                         bool boundary = false;
@@ -651,19 +632,13 @@ public:
                         if (boundary) {
                                 expected_boundary.push_back(n);
 //                                if (!m_boundaries_per_thread[num_hash_table(n)].get().contains(n)) {
-//                                     std::cout << "! " << n << " ";
 //                                }
                         } else {
 //                                if (m_boundaries_per_thread[num_hash_table(n)].get().contains(n)) {
-//                                        std::cout << n << " ";
 //                                }
                         }
                 } endfor
-                std::cout << std::endl;
-                std::cout << "check size = " << size << std::endl;
                 if (expected_boundary == this_boundary) {
-                        std::cout << "expected size = " << expected_boundary.size() << std::endl;
-                        std::cout << "this size = " << this_boundary.size() << std::endl;
                         ALWAYS_ASSERT(expected_boundary == this_boundary);
                 }
         }

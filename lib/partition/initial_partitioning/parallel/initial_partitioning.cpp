@@ -23,7 +23,6 @@ void initial_partitioning::perform_initial_partitioning(const PartitionConfig& c
         ALWAYS_ASSERT(config.initial_partitioning_type == INITIAL_PARTITIONING_RECPARTITION);
 
         quality_metrics qm;
-        std::cout << "Parallel initial partitioning" << std::endl;
         timer t;
         t.restart();
 
@@ -82,10 +81,7 @@ void initial_partitioning::perform_initial_partitioning(const PartitionConfig& c
         futures.reserve(g_thread_pool.NumThreads());
 
         // start initial
-        std::ofstream ofs;
-        std::streambuf* backup = std::cout.rdbuf();
-        ofs.open("/dev/null");
-        std::cout.rdbuf(ofs.rdbuf());
+
 
         for (uint32_t id = 0; id < g_thread_pool.NumThreads(); ++id) {
                 futures.push_back(parallel::g_thread_pool.Submit(id, task, id + 1));
@@ -101,18 +97,13 @@ void initial_partitioning::perform_initial_partitioning(const PartitionConfig& c
         std::for_each(futures.begin(), futures.end(), [&](auto& future) {
                 cuts.push_back(future.get());
         });
-        ofs.close();
-        std::cout.rdbuf(backup);
+
 
         for (auto& cut : cuts) {
                 EdgeWeight cur_cut = cut.first;
                 std::unique_ptr<int[]> cur_map = std::move(cut.second);
 
                 if (cur_cut < best_cut || (cur_cut == best_cut && rnd.bit())) {
-                        PRINT(std::cout << "log>"
-                                        << "improved the current initial partitiong from "
-                                        << best_cut
-                                        << " to " << cur_cut << std::endl;)
                         best_cut = cur_cut;
                         best_map = std::move(cur_map);
                 }
@@ -123,16 +114,11 @@ void initial_partitioning::perform_initial_partitioning(const PartitionConfig& c
                 G.setPartitionIndex(n, best_map[n]);
         } endfor
 
-        PRINT(std::cout << "initial partitioning took " << t.elapsed()                << std::endl;)
-        PRINT(std::cout << "log>"                       << "current initial balance " << qm.balance(G) << std::endl;)
 
         ALWAYS_ASSERT(!config.initial_partition_optimize && !config.combine);
 
         if(!(config.graph_allready_partitioned && config.no_new_initial_partitioning)) {
-                PRINT(std::cout << "finalinitialcut " << best_cut                         << std::endl;)
-                PRINT(std::cout << "log>"             << "final current initial balance " << qm.balance(G) << std::endl;)
         }
-        std::cout << "initial cut\t" << best_cut << std::endl;
 
         ASSERT_TRUE(graph_partition_assertions::assert_graph_has_kway_partition(config, G));
 }

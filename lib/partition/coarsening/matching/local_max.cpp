@@ -33,8 +33,6 @@ void local_max_matching::match(const PartitionConfig& partition_config,
                         }
                         break;
                 default:
-                        std::cout << "Incorrect matching type expected sequential local max or parallel local max"
-                                  << std::endl;
                         abort();
         }
 }
@@ -45,7 +43,6 @@ void local_max_matching::sequential_match(const PartitionConfig& partition_confi
                                           CoarseMapping& mapping,
                                           NodeID& no_of_coarse_vertices,
                                           NodePermutationMap& permutation) {
-        std::cout << "MAX VERTEX WEIGHT = " << partition_config.max_vertex_weight << std::endl;
         CLOCK_START;
         std::vector<std::pair<NodeID, uint32_t>> max_neighbours;
 
@@ -75,8 +72,6 @@ void local_max_matching::sequential_match(const PartitionConfig& partition_confi
         uint32_t threshold = (uint32_t) (2.0 * G.number_of_nodes() / 3.0);
         uint32_t remaining_vertices = G.number_of_nodes();
         while (!node_queue->empty() && round < m_max_round + 1 && remaining_vertices > threshold) {
-                std::cout << round - 1 << std::endl;
-                std::cout << remaining_vertices << std::endl;
                 CLOCK_START;
                 while (!node_queue->empty()) {
                         NodeID node = node_queue->front();
@@ -112,7 +107,6 @@ void local_max_matching::sequential_match(const PartitionConfig& partition_confi
                 std::swap(node_queue, node_queue_next);
                 CLOCK_END("Round time");
         }
-        std::cout << remaining_vertices << std::endl;
         CLOCK_END("Coarsening: Matching: Main");
 
         CLOCK_START_N;
@@ -126,7 +120,6 @@ void local_max_matching::sequential_match(const PartitionConfig& partition_confi
                         ++no_of_coarse_vertices;
                 }
         }
-        std::cout << no_of_coarse_vertices << std::endl;
         CLOCK_END("Coarsening: Matching: Remap");
 }
 
@@ -264,8 +257,6 @@ void local_max_matching::parallel_match_with_queue(const PartitionConfig& partit
         futures.reserve(num_threads);
         NodeID coarse_vertices = G.number_of_nodes();
         while (!node_queue->empty()) {
-                std::cout << round - 1 << std::endl;
-                std::cout << coarse_vertices << std::endl;
 
                 NodeID old_coarse_vertices = coarse_vertices;
                 CLOCK_START;
@@ -278,7 +269,6 @@ void local_max_matching::parallel_match_with_queue(const PartitionConfig& partit
                         break;
                 }
         }
-        std::cout << coarse_vertices << std::endl;
 
         CLOCK_END("Coarsening: Matching: Main");
 
@@ -437,8 +427,6 @@ void local_max_matching::parallel_match_with_queue_exp(const PartitionConfig& pa
         futures.reserve(num_threads);
         NodeID coarse_vertices = G.number_of_nodes();
         while (!node_queue->empty()) {
-                std::cout << round - 1 << std::endl;
-                std::cout << coarse_vertices << std::endl;
 
                 NodeID old_coarse_vertices = coarse_vertices;
                 CLOCK_START;
@@ -451,7 +439,6 @@ void local_max_matching::parallel_match_with_queue_exp(const PartitionConfig& pa
                         break;
                 }
         }
-        std::cout << coarse_vertices << std::endl;
 
         CLOCK_END("Coarsening: Matching: Main");
 
@@ -656,8 +643,6 @@ void local_max_matching::parallel_match_with_queue_exp_with_removal(const Partit
         futures.reserve(num_threads);
         NodeID coarse_vertices = G.number_of_nodes();
         while (!node_queue->empty()) {
-                std::cout << round - 1 << std::endl;
-                std::cout << coarse_vertices << std::endl;
 
                 NodeID old_coarse_vertices = coarse_vertices;
                 CLOCK_START;
@@ -672,7 +657,6 @@ void local_max_matching::parallel_match_with_queue_exp_with_removal(const Partit
                         break;
                 }
         }
-        std::cout << coarse_vertices << std::endl;
 
         CLOCK_END("Coarsening: Matching: Main");
 
@@ -777,8 +761,6 @@ void local_max_matching::parallel_match(const PartitionConfig& partition_config,
         futures.reserve(num_threads);
         NodeID coarse_vertices = G.number_of_nodes();
         while (true) {
-                std::cout << round - 1 << std::endl;
-                std::cout << coarse_vertices << std::endl;
 
                 NodeID old_coarse_vertices = coarse_vertices;
                 CLOCK_START;
@@ -791,7 +773,6 @@ void local_max_matching::parallel_match(const PartitionConfig& partition_config,
                         break;
                 }
         }
-        std::cout << coarse_vertices << std::endl;
 
         CLOCK_END("Coarsening: Matching: Main");
 
@@ -808,7 +789,6 @@ void local_max_matching::remap_matching(const PartitionConfig& partition_config,
                 NodeID matched = edge_matching[node];
                 if (id == 0) {
                         if (node != edge_matching[matched]) {
-                                std::cout << node << ' ' << matched << ' ' << edge_matching[matched] << std::endl;
                         }
                         ALWAYS_ASSERT(node == edge_matching[matched]);
                 }

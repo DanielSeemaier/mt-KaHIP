@@ -190,14 +190,12 @@ int multitry_kway_fm::start_more_locallized_search(PartitionConfig& config, grap
                                                                                            local_step_limit, moved_idx,
                                                                                            touched_blocks);
                                 if (improvement < 0) {
-                                        std::cout << "buf error improvement < 0" << std::endl;
                                 }
                         } else {
                                 std::tie(improvement, tried_movements) = refinement_core.single_kway_refinement_round(config, G,
                                                                                            boundary, real_start_nodes,
                                                                                            local_step_limit, moved_idx);
                                 if (improvement < 0) {
-                                        std::cout << "buf error improvement < 0" << std::endl;
                                 }
                         }
 

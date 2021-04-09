@@ -38,14 +38,11 @@ inline void coarsening_configurator::configure_coarsening( const PartitionConfig
                         break; 
                 case MATCHING_GPA:
                         *edge_matcher = new gpa_matching();
-                        PRINT(std::cout <<  "gpa matching"  << std::endl;)
                         break;
                 case MATCHING_RANDOM_GPA:
-                        PRINT(std::cout <<  "random gpa matching"  << std::endl;)
                         *edge_matcher = new gpa_matching();
                         break;
                case CLUSTER_COARSENING:
-                        PRINT(std::cout <<  "cluster_coarsening"  << std::endl;)
                         *edge_matcher = new size_constraint_label_propagation();
                         break;
                 case MATCHING_SEQUENTIAL_LOCAL_MAX:
@@ -59,7 +56,6 @@ inline void coarsening_configurator::configure_coarsening( const PartitionConfig
 
         if( partition_config.matching_type == MATCHING_RANDOM_GPA && level < partition_config.aggressive_random_levels) {
                 delete *edge_matcher;
-                PRINT(std::cout <<  "random matching"  << std::endl;)
                 *edge_matcher = new random_matching();
         }  
 }

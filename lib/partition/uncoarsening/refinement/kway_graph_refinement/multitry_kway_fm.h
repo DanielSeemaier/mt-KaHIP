@@ -44,12 +44,6 @@ public:
         }
 
         static void print_full_statistics() {
-//                std::cout << "Time setup start nodes\t" << time_setup_start_nodes << " s" << std::endl;
-//                std::cout << "Time local search\t" << time_local_search << " s" << std::endl;
-//                std::cout << "Time generate moves\t" << time_generate_moves << " s" << std::endl;
-//                std::cout << "Total tried moves\t" << tried_movements << std::endl;
-//                std::cout << "Total scanned neighbours\t" << kway_graph_refinement_commons::scaned_movements << std::endl;
-//                std::cout << "Number of partition accesses\t" << kway_graph_refinement_commons::num_part_accesses << std::endl;
         }
 
 //        static double time_setup_start_nodes;

@@ -439,7 +439,6 @@ inline void complete_boundary::get_max_norm() {
                  }
          }
         
-         std::cout <<  "max norm is " <<  max  << std::endl;
 }
 
 inline void complete_boundary::getUnderlyingQuotientGraph( graph_access & Q_bar ) {

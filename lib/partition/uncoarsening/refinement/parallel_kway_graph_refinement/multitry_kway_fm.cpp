@@ -19,7 +19,6 @@ int multitry_kway_fm::perform_refinement(PartitionConfig& config, graph_access& 
         uint32_t iter = 0;
         bool stop = false;
         estimator<double> est;
-        std::cout << "Distribution type\t" << get_distribution_name() << std::endl;
         while (!stop) {
                 CLOCK_START;
                 setup_start_nodes_all(G, config, boundary);
@@ -32,14 +31,12 @@ int multitry_kway_fm::perform_refinement(PartitionConfig& config, graph_access& 
 
                 m_factory.time_setup_start_nodes += CLOCK_END_TIME;
 
-                std::cout << "Iter\t" << iter << std::endl;
                 uint64_t accesses_before = m_factory.get_total_num_part_accesses();
                 CLOCK_START_N;
                 EdgeWeight improvement = start_more_locallized_search(G, config, init_neighbors, rounds);
                 m_factory.time_local_search += CLOCK_END_TIME;
                 uint64_t work = m_factory.get_total_num_part_accesses() - accesses_before;
 
-                std::cout << "Gain improvement\t" << improvement << std::endl;
 
                 if (improvement == 0) {
                         stop = true;
@@ -51,7 +48,6 @@ int multitry_kway_fm::perform_refinement(PartitionConfig& config, graph_access& 
                 overall_improvement += improvement;
                 ++iter;
         }
-        std::cout << "Total gain improvement\t" << overall_improvement << std::endl;
         config.kway_adaptive_limits_alpha = tmp_alpha;
         config.kway_stop_rule = tmp_stop;
         ASSERT_TRUE(overall_improvement >= 0);
@@ -92,12 +88,8 @@ void multitry_kway_fm::decide_if_stop(LoopType type, PartitionConfig& config, ui
                                 p = local_quantile;
                         }
                         qm = get_quantile(est, p);
-                        std::cout << loop_type + " exp\t" << est.get_expectation() << std::endl;
                         if (distribution_type == DistributionType::LogNormal) {
-                                std::cout << loop_type + " std\t" << est.get_std_deviation() << std::endl;
                         }
-                        std::cout << loop_type + " quantile\t" << qm << std::endl;
-                        std::cout << loop_type + " w / g\t" << (work + 0.0) / improvement << std::endl;
                 }
 
                 if (overall_improvement > 0 && improvement > 0 && iter > 1 && qm < (work + 0.0) / improvement) {
@@ -252,7 +244,6 @@ int multitry_kway_fm::start_more_locallized_search(graph_access& G, PartitionCon
                                                         refinement_core.single_kway_refinement_round(td);
 
                                                 if (improvement < 0) {
-                                                        std::cout << "buf error improvement < 0" << std::endl;
                                                         abort();
                                                 }
 
@@ -328,7 +319,6 @@ int multitry_kway_fm::start_more_locallized_search(graph_access& G, PartitionCon
                 ALWAYS_ASSERT(real_gain_improvement >= 0);
                 uint64_t work = m_factory.get_total_num_part_accesses() - accesses_before;
 
-                std::cout << "LOCAL iter\t" << iter << std::endl;
 
                 if (config.kway_all_boundary_nodes_refinement && real_gain_improvement == 0) {
                         stop = true;
@@ -532,7 +522,6 @@ int multitry_kway_fm::start_more_locallized_search_experimental(PartitionConfig&
                                         std::tie(improvement, min_cut_index, tried_movements) =
                                                 refinement_core.single_kway_refinement_round(td);
                                         if (improvement < 0) {
-                                                std::cout << "buf error improvement < 0" << std::endl;
                                         }
 
                                         td.upper_bound_gain += improvement;

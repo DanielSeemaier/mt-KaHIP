@@ -62,7 +62,6 @@ void parallel_mh_async::perform_partitioning(const PartitionConfig & partition_c
 
                 perform_local_partitioning( working_config, G );
                 if(m_rank == ROOT) {
-                        std::cout <<  "t left " <<  (m_time_limit - m_t.elapsed()) << std::endl;
                 }
 
                 //push and recv 
@@ -108,7 +107,6 @@ void parallel_mh_async::initialize(PartitionConfig & working_config, graph_acces
         } else {
                 construct_partition cp;
                 cp.createIndividuum( working_config, G, first_one, true); 
-                std::cout <<  "created with objective " <<  first_one.objective << std::endl;
         }
 
         double time_spend = m_t.elapsed();
@@ -135,7 +133,6 @@ void parallel_mh_async::initialize(PartitionConfig & working_config, graph_acces
         } else {
                 population_size = std::min(100, population_size);
         }
-        std::cout <<  "poolsize = " <<  population_size  << std::endl;
 
         //set S
         m_island->set_pool_size(population_size);
@@ -214,7 +211,6 @@ EdgeWeight parallel_mh_async::perform_local_partitioning(PartitionConfig & worki
                                 cp.createIndividuum( working_config, G, first_ind, true); 
 
                                 m_island->insert(G, first_ind);
-                                std::cout <<  "created with objective " <<  first_ind.objective << std::endl;
                         }
                 } else {
                         if( m_island->is_full() && !working_config.mh_disable_combine) {
@@ -273,7 +269,6 @@ EdgeWeight parallel_mh_async::perform_local_partitioning(PartitionConfig & worki
                                         } else {
                                                 construct_partition cp;
                                                 cp.createIndividuum( working_config, G, first_ind, true); 
-                                                std::cout <<  "created with objective " <<  first_ind.objective << std::endl;
                                         }
                                 }
                                 m_island->insert(G, first_ind);

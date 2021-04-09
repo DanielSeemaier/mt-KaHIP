@@ -30,7 +30,6 @@ partition_snapshooter * partition_snapshooter::getInstance() {
 }
 
 void partition_snapshooter::addSnapshot(graph_access & G) {
-        std::cout <<  "idx " << m_partition_map_buffer.size() << std::endl;
         std::vector<PartitionID>* partition_map = new std::vector<PartitionID>();
         m_partition_map_buffer.push_back(partition_map);
 

@@ -45,5 +45,4 @@ void misc::balance_singletons(const PartitionConfig & config, graph_access & G) 
                 block_sizes[p] += G.getNodeWeight(node);
                 G.setPartitionIndex(node, p);
         }
-        std::cout <<  "log> balance after assigning singletons " <<  qm.balance(G)  << std::endl;
 }

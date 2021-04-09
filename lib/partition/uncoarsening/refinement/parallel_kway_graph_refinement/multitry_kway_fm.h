@@ -111,16 +111,6 @@ public:
         void print_iteration_statistics() {
                 statistics_type stat;
 
-                std::cout << "Time full search\t" << time_setup_start_nodes + time_local_search << " s" << std::endl;
-                std::cout << "Time setup start nodes\t" << time_setup_start_nodes << " s" << std::endl;
-                std::cout << "Time local search\t" << time_local_search << " s" << std::endl;
-
-                std::cout << "Time init\t" << time_init << " s" << std::endl;
-                std::cout << "Time generate moves\t" << time_generate_moves << " s" << std::endl;
-                std::cout << "Time wait\t" << time_wait << " s" << std::endl;
-                std::cout << "Time move nodes\t" << time_move_nodes << " s" << std::endl;
-                std::cout << "Time reactivate vertices\t" << time_reactivate_vertices << " s" << std::endl;
-
                 stat.time_setup_start_nodes = time_setup_start_nodes;
                 stat.time_local_search = time_local_search;
                 stat.time_init = time_init;
@@ -156,27 +146,6 @@ public:
                 uint32_t total_stop_faction_of_nodes_moved = 0;
 
                 for (uint32_t id = 0; id < m_config.num_threads; ++id) {
-//                        std::cout << "proc_id\t" << id << " | "
-//                                  << "time\t" << m_thread_data[id].get().total_thread_time << " s | "
-//                                  << "num part accesses\t" << m_thread_data[id].get().num_part_accesses
-//                                  << "tried moves\t" << m_thread_data[id].get().tried_movements << " | "
-//                                  << "accepted moves\t" << m_thread_data[id].get().accepted_movements << " | "
-//                                  << "scanned neighbours\t" << m_thread_data[id].get().scaned_neighbours << " | "
-//                                  << "try moves time\t" << m_thread_data[id].get().total_thread_try_move_time << " s | "
-//                                  << "accepted moves time\t" << m_thread_data[id].get().total_thread_accepted_move_time << " s | "
-//                                  << "compute gain time\t" << m_thread_data[id].get().time_compute_gain << " s | "
-//                                  << "total partition accesses\t" << m_thread_data[id].get().num_part_accesses << " | "
-//                                  << "unroll moves time\t" << m_thread_data[id].get().total_thread_unroll_move_time << " s | "
-//                                  << "move nodes time\t" << m_thread_data[id].get().time_move_nodes << " s | "
-//                                  << "transpositions size\t" << m_thread_data[id].get().transpositions_size << " | "
-//                                  << "performed gain\t" << m_thread_data[id].get().performed_gain << " | "
-//                                  << "unperformed gain\t" << m_thread_data[id].get().unperformed_gain << " | "
-//                                  << "stop empty queue\t" << m_thread_data[id].get().stop_empty_queue << " | "
-//                                  << "stop stopping rule\t" << m_thread_data[id].get().stop_stopping_rule << " | "
-//                                  << "stop max number of swaps\t" << m_thread_data[id].get().stop_max_number_of_swaps << " | "
-//                                  << "stop faction of nodes moved\t" << m_thread_data[id].get().stop_faction_of_nodes_moved
-//                                  << std::endl;
-
                         total_num_part_accesses += m_thread_data[id].get().num_part_accesses;
                         total_tried_movements += m_thread_data[id].get().tried_movements;
                         total_accepted_movements += m_thread_data[id].get().accepted_movements;
@@ -231,25 +200,6 @@ public:
                 stat.total_stop_max_number_of_swaps = total_stop_max_number_of_swaps;
                 stat.total_stop_faction_of_nodes_moved = total_stop_faction_of_nodes_moved;
 
-                std::cout << "Time move nodes (change boundary)\t" << total_time_move_nodes_change_boundary<< " s" << std::endl;
-                std::cout << "Total num part accesses\t" << total_num_part_accesses << std::endl;
-                std::cout << "Total tried moves\t" << total_tried_movements << std::endl;
-                std::cout << "Total accepted moves\t" << total_accepted_movements << std::endl;
-                std::cout << "Total affected moves\t" << total_affected_movements << std::endl;
-                std::cout << "Total scanned neighbours\t" << total_scaned_neighbours << std::endl;
-                std::cout << "Total upperbound gain\t" << total_upper_bound_gain << std::endl;
-                std::cout << "Total performed gain\t" << total_performed_gain << std::endl;
-                std::cout << "Total unperformed gain\t" << total_unperformed_gain << std::endl;
-                std::cout << "Total stop empty queue\t" << total_stop_empty_queue << std::endl;
-                std::cout << "Total stop stopping rule\t" << total_stop_stopping_rule << std::endl;
-                std::cout << "Total stop max number of swaps\t" << total_stop_max_number_of_swaps << std::endl;
-                std::cout << "Total stop faction of nodes moved\t" << total_stop_faction_of_nodes_moved << std::endl;
-
-                std::cout << "Average TIME per thread\t" << total / m_config.num_threads << " s" << std::endl;
-                std::cout << "Average TIME tried moves per thread\t" << total_tried / m_config.num_threads << " s" << std::endl;
-                std::cout << "Average TIME accepted moves per thread\t" << total_accepted / m_config.num_threads << " s" << std::endl;
-                std::cout << "Average TIME unroll per thread\t" << total_unroll / m_config.num_threads << " s" << std::endl;
-                std::cout << "Average TIME compute gain\t" << total_time_compute_gain / m_config.num_threads << " s" << std::endl;
 
                 stat.avg_thread_time = total / m_config.num_threads;
                 stat.avg_tried = total_tried / m_config.num_threads;
@@ -287,55 +237,8 @@ public:
                 }
 
                 double full_time = stat.time_setup_start_nodes + stat.time_local_search;
-                std::cout << "Time full search\t" << full_time << " s" << std::endl;
-                std::cout << "Total performed gain\t" << stat.total_performed_gain << std::endl;
-                std::cout << "Total upperbound gain\t" << stat.total_upper_bound_gain << std::endl;
 
-                std::cout << "Time setup start nodes\t" << stat.time_setup_start_nodes << " s" << std::endl;
-                std::cout << "Time local search\t" << stat.time_local_search << " s" << std::endl;
 
-                std::cout << "Time init\t" << stat.time_init << " s" << std::endl;
-                std::cout << "Time generate moves\t" << stat.time_generate_moves << " s" << std::endl;
-                std::cout << "Time wait\t" << stat.time_wait << " s" << std::endl;
-                std::cout << "Time move nodes\t" << stat.time_move_nodes << " s" << std::endl;
-                std::cout << "Time reactivate vertices\t" << stat.time_reactivate_vertices << " s" << std::endl;
-                std::cout << "Time move nodes (change boundary)\t" << stat.total_time_move_nodes_change_boundary << " s" << std::endl;
-                std::cout << "Time compute gain\t" << stat.total_compute_gain_time << std::endl;
-                std::cout << "Number of partition accesses\t" << stat.total_num_part_accesses << std::endl;
-
-//                for (auto& pr : stat.proc_stats) {
-//                        std::cout << "proc_id\t" << pr.proc_id << " | "
-//                                  << "time\t" << pr.total_thread_time << " s | "
-//                                  << "num part accesses\t" << pr.num_part_accesses << " | "
-//                                  << "accepted moves\t" << pr.accepted_movements << " | "
-//                                  << "scanned neighbours\t" << pr.scaned_neighbours << " | "
-//                                  << "try moves time\t" << pr.total_thread_try_move_time << " s | "
-//                                  << "accepted moves time\t" << pr.total_thread_accepted_move_time << " s | "
-//                                  << "unroll moves time\t" << pr.total_thread_unroll_move_time << " s | "
-//                                  << "performed gain\t" << pr.performed_gain << " | "
-//                                  << "unperformed gain\t" << pr.unperformed_gain << " | "
-//                                  << "stop empty queue\t" << pr.stop_empty_queue << " | "
-//                                  << "stop stopping rule\t" << pr.stop_stopping_rule << " | "
-//                                  << "stop max number of swaps\t" << pr.stop_max_number_of_swaps << " | "
-//                                  << "stop faction of nodes moved\t" << pr.stop_faction_of_nodes_moved
-//                                  << std::endl;
-//                }
-
-                std::cout << "Total tried moves\t" << stat.total_tried_movements << std::endl;
-                std::cout << "Total accepted moves\t" << stat.total_accepted_movements << std::endl;
-                std::cout << "Total affected moves\t" << stat.total_affected_movements << std::endl;
-                std::cout << "Total scanned neighbours\t" << stat.total_scanned_neighbours << std::endl;
-                std::cout << "Total unperformed gain\t" << stat.total_unperformed_gain << std::endl;
-                std::cout << "Total stop empty queue\t" << stat.total_stop_empty_queue << std::endl;
-                std::cout << "Total stop stopping rule\t" << stat.total_stop_stopping_rule << std::endl;
-                std::cout << "Total stop max number of swaps\t" << stat.total_stop_max_number_of_swaps << std::endl;
-                std::cout << "Total stop faction of nodes moved\t" << stat.total_stop_faction_of_nodes_moved << std::endl;
-
-                std::cout << "Average TIME per thread\t" << stat.avg_thread_time << " s" << std::endl;
-                std::cout << "Average TIME tried moves per thread\t" << stat.avg_tried << " s" << std::endl;
-                std::cout << "Average TIME accepted moves per thread\t" << stat.avg_accepted << " s" << std::endl;
-                std::cout << "Average TIME unroll per thread\t" << stat.avg_unroll << " s" << std::endl;
-                std::cout << "Average TIME compute gain\t" << stat.avg_compute_gain_time << " s" << std::endl;
         }
 
         virtual ~thread_data_factory() {

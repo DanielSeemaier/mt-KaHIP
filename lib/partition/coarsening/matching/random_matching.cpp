@@ -112,5 +112,4 @@ void random_matching::match(const PartitionConfig & partition_config,
                 } endfor
 
         }
-        PRINT(std::cout << "log>" << "no of coarse nodes: " << no_of_coarse_vertices << std::endl;)
 }

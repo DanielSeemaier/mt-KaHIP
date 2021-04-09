@@ -71,7 +71,6 @@ void bipartition::initial_partition( const PartitionConfig & config,
                 } 
 
         }
-        PRINT(std::cout <<  "bipartition took " <<  t.elapsed()  << std::endl;)
 }
 
 void bipartition::initial_partition( const PartitionConfig & config, 
@@ -83,7 +82,6 @@ void bipartition::initial_partition( const PartitionConfig & config,
                                      int* adjwgt,
                                      int* partition_map) {
 
-        std::cout <<  "not implemented yet"  << std::endl;
 
 }
 

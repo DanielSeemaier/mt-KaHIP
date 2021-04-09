@@ -57,16 +57,12 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
                 refine      = new mixed_refinement();
         }
         graph_access * coarsest = hierarchy.get_coarsest();
-        PRINT(std::cout << "log>" << "unrolling graph with " << coarsest->number_of_nodes() << std::endl;)
 
 //        if (config.lp_before_local_search) {
 //                quality_metrics qm;
 //                EdgeWeight old_cut = 0;
 //                if (config.check_cut) {
 //                        old_cut = qm.edge_cut(*coarsest);
-//                        std::cout << "before\t" << old_cut << std::endl;
-//                        std::cout << "upper_bound_partition\t" << config.upper_bound_partition << std::endl;
-//                        std::cout << "before balance\t" << qm.balance(*coarsest) << std::endl;
 //                }
 //
 //                CLOCK_START;
@@ -77,10 +73,6 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
 //
 //                if (config.check_cut) {
 //                        EdgeWeight new_cut = qm.edge_cut(*coarsest);
-//                        std::cout << "after\t" << new_cut << std::endl;
-//                        std::cout << "upper_bound_partition\t" << config.upper_bound_partition << std::endl;
-//                        std::cout << "after balance\t" << qm.balance(*coarsest) << std::endl;
-//                        std::cout << "changed\t" << changed << std::endl;
 //                }
 //        }
 
@@ -109,7 +101,6 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
                 graph_access* G = hierarchy.pop_finer_and_project();
                 CLOCK_END("Projection");
 
-                PRINT(std::cout << "log>" << "unrolling graph with " << G->number_of_nodes()<<  std::endl;)
 
 //                std::vector<uint8_t> boundary;
 //                if (config.lp_before_local_search) {
@@ -117,8 +108,6 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
 //                        EdgeWeight old_cut = 0;
 //                        if (config.check_cut) {
 //                                old_cut = qm.edge_cut(*G);
-//                                std::cout << "before\t" << old_cut << std::endl;
-//                                std::cout << "before balance\t" << qm.balance(*G) << std::endl;
 //                        }
 //
 //                        CLOCK_START;
@@ -129,9 +118,6 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
 //
 //                        if (config.check_cut) {
 //                                EdgeWeight new_cut = qm.edge_cut(*G);
-//                                std::cout << "after\t" << new_cut << std::endl;
-//                                std::cout << "after balance\t" << qm.balance(*G) << std::endl;
-//                                std::cout << "changed\t" << changed << std::endl;
 //                        }
 //                }
 
@@ -154,7 +140,6 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
                 //call refinement
                 double cur_factor = factor/(hierarchy_deepth-hierarchy.size());
                 cfg.upper_bound_partition = ((!hierarchy.isEmpty()) * cur_factor+1.0)*config.upper_bound_partition;
-                PRINT(std::cout <<  "cfg upperbound " <<  cfg.upper_bound_partition  << std::endl;)
                 CLOCK_START_N;
                 improvement += (int)refine->perform_refinement(cfg, *G, *finer_boundary);
                 CLOCK_END(">> Refinement");
@@ -181,7 +166,6 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
         }
 
         if(config.compute_vertex_separator) {
-               PRINT(std::cout <<  "now computing a vertex separator from the given edge separator"  << std::endl;)
                vertex_separator_algorithm vsa;
                vsa.compute_vertex_separator(config, *finest, *finer_boundary); 
         }
@@ -195,11 +179,9 @@ int uncoarsening::perform_uncoarsening_cut(const PartitionConfig & config, graph
 
 int uncoarsening::perform_uncoarsening_nodeseparator(const PartitionConfig & config, graph_hierarchy & hierarchy) {
 
-        std::cout <<  "log> starting uncoarsening ---------------"  << std::endl;
         PartitionConfig cfg     = config;
         graph_access * coarsest = hierarchy.get_coarsest();
         quality_metrics qm;
-        std::cout << "log>" << "unrolling graph with " << coarsest->number_of_nodes() << std::endl;
 
         if( !config.sep_fm_disabled ) {
                 for( int i = 0; i < config.sep_num_fm_reps; i++) {
@@ -233,7 +215,6 @@ int uncoarsening::perform_uncoarsening_nodeseparator(const PartitionConfig & con
         graph_access* to_delete = NULL;
         while(!hierarchy.isEmpty()) {
                 graph_access* G = hierarchy.pop_finer_and_project();
-                std::cout << "log>" << "unrolling graph with " << G->number_of_nodes() << std::endl;
 
                 if( !config.sep_fm_disabled) {
                         for( int i = 0; i < config.sep_num_fm_reps; i++) {
@@ -288,10 +269,8 @@ int uncoarsening::perform_uncoarsening_nodeseparator(const PartitionConfig & con
 
 int uncoarsening::perform_uncoarsening_nodeseparator_fast(const PartitionConfig & config, graph_hierarchy & hierarchy) {
 
-        std::cout <<  "log> starting uncoarsening ---------------"  << std::endl;
         PartitionConfig cfg     = config;
         graph_access * coarsest = hierarchy.get_coarsest();
-        std::cout << "log>" << "unrolling graph with " << coarsest->number_of_nodes() << std::endl;
 
         std::vector< NodeWeight > block_weights(3,0); PartialBoundary current_separator;
         //compute coarsest block weights and separator
@@ -328,7 +307,6 @@ int uncoarsening::perform_uncoarsening_nodeseparator_fast(const PartitionConfig 
         graph_access* to_delete = NULL;
         while(!hierarchy.isEmpty()) {
                 graph_access* G = hierarchy.pop_finer_and_project_ns(current_separator);
-                std::cout << "log>" << "unrolling graph with " << G->number_of_nodes() << std::endl;
 
                 std::vector< bool > moved_out_of_S(G->number_of_nodes(), false);
                 if( !config.sep_fm_disabled) {

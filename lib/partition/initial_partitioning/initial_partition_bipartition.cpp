@@ -66,16 +66,13 @@ void initial_partition_bipartition::initial_partition( const PartitionConfig & c
         std::streambuf* backup;
         std::ofstream ofs;
         //if (!config.parallel_initial_partitioning) {
-                backup = std::cout.rdbuf();
-                ofs.open("/dev/null");
-                std::cout.rdbuf(ofs.rdbuf());
+
         //}
 
         gp.perform_recursive_partitioning(rec_config, G);
 
         //if (!config.parallel_initial_partitioning) {
-                ofs.close();
-                std::cout.rdbuf(backup);
+
         //}
 
         forall_nodes(G, n) {
@@ -93,6 +90,5 @@ void initial_partition_bipartition::initial_partition( const PartitionConfig & c
                                                        int* adjwgt,
                                                        int* partition_map) {
 
-        std::cout <<  "not implemented yet"  << std::endl;
 }
 

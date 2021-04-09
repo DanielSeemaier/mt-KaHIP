@@ -142,7 +142,6 @@ void localized_fm_ns_local_search::move_node( graph_access & G, NodeID & node, P
         cur_move.block = G.getPartitionIndex(node);
         rollback_info.push_back(cur_move);
         separator.deleteNode(node);
-        //std::cout <<  "node " <<  node  << std::endl;
 
         G.setPartitionIndex(node, to_block);
         block_weights[to_block] += G.getNodeWeight(node);
@@ -155,7 +154,6 @@ void localized_fm_ns_local_search::move_node( graph_access & G, NodeID & node, P
         Gain gain_achieved = G.getNodeWeight(node);
         forall_out_edges(G, e, node) {
                 NodeID target = G.getEdgeTarget(e);
-                //std::cout <<  "target " <<  target  << std::endl;
 
                 if( G.getPartitionIndex( target ) == other_block ) {
                         change_set cur_move;

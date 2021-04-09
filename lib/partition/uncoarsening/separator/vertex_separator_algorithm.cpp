@@ -559,9 +559,7 @@ void vertex_separator_algorithm::compute_vertex_separator(const PartitionConfig 
                 G.setPartitionIndex(it->first, G.getSeparatorBlock());
         }
         delete scheduler;
-        //std::cout <<  "performing check "  << std::endl;
-        //is_vertex_separator(G, allready_separator);         
-        //std::cout <<  "performing check done "  << std::endl;
+        //is_vertex_separator(G, allready_separator);
 }
 
 void vertex_separator_algorithm::compute_vertex_separator(const PartitionConfig & config, 
@@ -689,9 +687,6 @@ bool vertex_separator_algorithm::is_vertex_separator(graph_access & G, std::unor
                                 // in this case one of them has to be a separator
                                 if( separator.find(node)   == separator.end() && 
                                     separator.find(target) == separator.end()) {
-                                        std::cout <<  "not a separator! " <<  node <<  " " <<  target << std::endl;
-                                        std::cout <<  "PartitionIndex node " << G.getPartitionIndex(node)  << std::endl;
-                                        std::cout <<  "PartitionIndex target " << G.getPartitionIndex(target)  << std::endl;
                                         ASSERT_TRUE(false);
                                         exit(0);
                                 } 

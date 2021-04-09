@@ -106,7 +106,6 @@ void construct_partition::construct_starting_from_partition( PartitionConfig & c
 }
 
 void construct_partition::createIndividuum( PartitionConfig & config, graph_access & G, Individuum & ind, bool output) {
-        std::cout <<  "creating individuum "  << std::endl;
         forall_nodes(G, node) {
                 G.setPartitionIndex(node, config.k);
         } endfor

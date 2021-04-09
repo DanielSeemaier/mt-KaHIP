@@ -280,23 +280,9 @@ public:
         }
 
         static void print_statistics() {
-                std::cout << "Num access\t" << num_access << std::endl;
-                std::cout << "Num contain\t" << num_contain << std::endl;
-                std::cout << "Max overall max size\t" << overall_max_size << std::endl;
-                std::cout << "Num find pos\t" << num_find_pos << std::endl;
-                std::cout << "Num probes\t" << num_probes << std::endl;
-                std::cout << "Average num prob per find pos\t" << (num_probes + 0.0) / num_find_pos << std::endl;
         }
 
         void print_full_statistics() const {
-                std::cout << "Num access\t" << num_access << std::endl;
-                std::cout << "Num contain\t" << num_contain << std::endl;
-                std::cout << "Max overall max size\t" << overall_max_size << std::endl;
-                std::cout << "Size\t" << size() << std::endl;
-                std::cout << "Mem (table onle)\t" << _ht.size() * sizeof(Element) << std::endl;
-                std::cout << "Num find pos\t" << num_find_pos << std::endl;
-                std::cout << "Num probes\t" << num_probes << std::endl;
-                std::cout << "Average num prob per find pos\t" << (num_probes + 0.0) / num_find_pos << std::endl;
         }
 #endif
 private:

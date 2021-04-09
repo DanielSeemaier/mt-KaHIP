@@ -8,7 +8,7 @@
 static std::mutex time_mutex;
 #define SYNC std::lock_guard<std::mutex> guard(time_mutex)
 
-#define TIME
+//#define TIME
 
 #if defined(TIME)
 

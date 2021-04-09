@@ -67,8 +67,6 @@ EdgeWeight label_propagation_refinement::sequential_label_propagation(PartitionC
         node_ordering n_ordering;
         n_ordering.order_nodes(partition_config, G, permutation);
         auto e = std::chrono::high_resolution_clock::now();
-        std::cout << "Uncoarsening: Sequential init of permutations lp:\t" << std::chrono::duration_cast<std::chrono::microseconds>(e - b).count()
-                  << std::endl;
 
         std::queue< NodeID > * Q             = new std::queue< NodeID >();
         std::queue< NodeID > * next_Q        = new std::queue< NodeID >();
@@ -79,8 +77,6 @@ EdgeWeight label_propagation_refinement::sequential_label_propagation(PartitionC
                 Q->push(permutation[node]);
         } endfor
         auto end = std::chrono::high_resolution_clock::now();
-        std::cout << "Uncoarsening: Init sequential lp:\t" << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()
-                  << std::endl;
 
         begin = std::chrono::high_resolution_clock::now();
 
@@ -160,7 +156,6 @@ EdgeWeight label_propagation_refinement::sequential_label_propagation(PartitionC
                         bool changed_label                = G.getPartitionIndex(node) != max_block;
                         change_counter                   += changed_label;
                         G.setPartitionIndex(node, max_block);
-                        //std::cout <<  "maxblock " <<  max_block  << std::endl;
 
                         if(changed_label) {
                                 forall_out_edges(G, e, node) {
@@ -179,9 +174,6 @@ EdgeWeight label_propagation_refinement::sequential_label_propagation(PartitionC
         }
 
         end = std::chrono::high_resolution_clock::now();
-        std::cout << "Uncoarsening: Main sequential lp:\t" << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count()
-                  << std::endl;
-        std::cout << "Uncoarsening: Improved:\t" << change_counter << std::endl;
 
         delete Q;
         delete next_Q;
@@ -395,7 +387,6 @@ EdgeWeight label_propagation_refinement::parallel_label_propagation_with_queue(g
         std::vector<AtomicWrapper<bool>> next_queue_contains(G.number_of_nodes());
 
         uint32_t max_block_size = get_block_size(G, config);
-        std::cout << "Uncoarsening: Block size\t" << max_block_size << std::endl;
 
 //        TODO: check what is better with cache_aligned vector or not
 //        std::vector<AtomicWrapper<NodeWeight>> cluster_sizes(config.k);
@@ -417,7 +408,6 @@ EdgeWeight label_propagation_refinement::parallel_label_propagation_with_queue(g
         NodeWeight num_changed_label = 0;
 
         CLOCK_START_N;
-        std::cout << "Uncoarsening: Num blocks\t" << queue->unsafe_size() << std::endl;
         for (int j = 0; j < config.label_iterations_refinement; j++) {
                 if (queue->empty()) {
                         break;
@@ -661,7 +651,6 @@ EdgeWeight label_propagation_refinement::parallel_label_propagation_with_queue_w
         std::vector<AtomicWrapper<bool>> next_queue_contains(G.number_of_nodes());
 
         uint64_t max_block_size = get_block_size(G, config);
-        std::cout << "Block size\t" << max_block_size << std::endl;
 
 
         par_init_for_edge_unit(G, max_block_size, permutation, queue);
@@ -676,7 +665,6 @@ EdgeWeight label_propagation_refinement::parallel_label_propagation_with_queue_w
         //using hash_value_type = hash_function_type::hash_type;
 
         CLOCK_START_N;
-        std::cout << "Num blocks\t" << queue->unsafe_size() << std::endl;
         for (int j = 0; j < config.label_iterations; j++) {
                 if (queue->empty()) {
                         break;
@@ -873,7 +861,6 @@ EdgeWeight label_propagation_refinement::parallel_label_propagation_many_cluster
                                                                        cluster_sizes, hash_maps, permutation);
         CLOCK_END("Main parallel (no queue) lp");
 
-        std::cout << "Improved\t" << res << std::endl;
 
         CLOCK_START_N;
         if (config.num_threads > 1) {
@@ -1009,7 +996,6 @@ EdgeWeight label_propagation_refinement::parallel_label_propagation(PartitionCon
         }
         CLOCK_END("Uncoarsening: Main parallel (no queue) lp");
 
-        std::cout << "Uncoarsening: Improved\t" << res << std::endl;
         return res;
 }
 

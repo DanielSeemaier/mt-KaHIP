@@ -27,7 +27,6 @@ void gpa_matching::match(const PartitionConfig & partition_config,
                 CoarseMapping & coarse_mapping, 
                 NodeID & no_of_coarse_vertices,
                 NodePermutationMap & permutation) {
-        PRINT(std::cout<< "matching using gpa" << std::endl;)
         permutation.resize(G.number_of_nodes());
         edge_matching.resize(G.number_of_nodes());
         coarse_mapping.resize(G.number_of_nodes());
@@ -358,9 +357,7 @@ void gpa_matching::dump_unpacked_path( graph_access & G,
         //dump the path
         for( unsigned i = 0; i < unpacked_path.size(); i++) {
                 EdgeID e = unpacked_path[i];
-                std::cout << "(" << sources[e] << " " << G.getEdgeTarget(e) << ") ";
         }
-        std::cout << std::endl;
 
 
 }

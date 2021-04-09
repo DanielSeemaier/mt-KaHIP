@@ -190,23 +190,9 @@ public:
         }
 
         static void print_statistics() {
-                std::cout << "Num access\t" << num_access << std::endl;
-                std::cout << "Num contain\t" << num_contain << std::endl;
-                std::cout << "Max overall max size\t" << overall_max_size << std::endl;
-                std::cout << "Num find pos\t" << num_find_pos << std::endl;
-                std::cout << "Num probes\t" << num_probes << std::endl;
-                std::cout << "Average num prob per find pos\t" << (num_probes + 0.0) / num_find_pos << std::endl;
         }
 
         void print_full_statistics() const {
-                std::cout << "Num access\t" << num_access << std::endl;
-                std::cout << "Num contain\t" << num_contain << std::endl;
-                std::cout << "Max overall max size\t" << overall_max_size << std::endl;
-                std::cout << "Size\t" << size() << std::endl;
-                std::cout << "Mem (table onle)\t" << _ht.size() * sizeof(Element) << std::endl;
-                std::cout << "Num find pos\t" << num_find_pos << std::endl;
-                std::cout << "Num probes\t" << num_probes << std::endl;
-                std::cout << "Average num prob per find pos\t" << (num_probes + 0.0) / num_find_pos << std::endl;
         }
 #endif
 private:
@@ -287,12 +273,6 @@ private:
                                 }
                                 return pos;
                         }
-//                        std::cout << "this key = " << key << ", other = " << _ht[pos].first << std::endl;
-//                        std::cout << "this key = " << std::bitset<32>(key) << ", other = " << std::bitset<32>(_ht[pos].first) << std::endl;
-//                        std::cout << "this h(key) = " << _hash(key) << ", other = " << _hash(_ht[pos].first) << std::endl;
-//                        std::cout << "this h(key) = " <<  std::bitset<32>(_hash(key)) << ", other = " <<  std::bitset<32>(_hash(_ht[pos].first)) << std::endl;
-//                        std::cout << "this h(key) & ht = " << (_hash(key) & (_ht_size - 1)) << ", other = " << (_hash(_ht[pos].first) & (_ht_size - 1)) << std::endl;
-//                        std::cout << "this h(key) & ht = " <<  std::bitset<32>(_hash(key) & (_ht_size - 1)) << ", other = " <<  std::bitset<32>(_hash(_ht[pos].first) & (_ht_size - 1)) << std::endl;
                 }
 
                 for (Position pos = 0; pos < startPosition; ++pos) {
@@ -629,7 +609,6 @@ template <typename key_type, typename value_type>
 using adaptive_cuckoo_hash_map = AdaptiveCuckooHashMap<key_type, value_type, true>;
 
 static void test_cuckoo_hash() {
-        std::cout << "Start test" << std::endl;
         random rnd(0);
 
         int test = 1000;
@@ -730,7 +709,6 @@ static void test_cuckoo_hash() {
                         }
                 }
         }
-        std::cout << "Test passed!" << std::endl;
 }
 
 }

@@ -18,10 +18,6 @@ initial_node_separator::~initial_node_separator() {
 
 NodeWeight initial_node_separator::single_run( const PartitionConfig & config, graph_access & G) {
 
-        std::streambuf* backup = std::cout.rdbuf();
-        std::ofstream ofs;
-        ofs.open("/dev/null");
-        std::cout.rdbuf(ofs.rdbuf()); 
 
         graph_partitioner partitioner;
         PartitionConfig partition_config         = config;
@@ -35,8 +31,6 @@ NodeWeight initial_node_separator::single_run( const PartitionConfig & config, g
         complete_boundary boundary(&G);
         boundary.build();
 
-        ofs.close();
-        std::cout.rdbuf(backup);
 
         vertex_separator_algorithm vsa; std::vector<NodeID> separator;
         //create a very simple separator from that partition
@@ -71,7 +65,6 @@ void initial_node_separator::compute_node_separator( const PartitionConfig & con
                         } endfor
                         best_separator_size = cur_separator_size;
                 
-                        std::cout <<  "improved initial separator size " <<  cur_separator_size  << std::endl;
 			unsucc_counter = 0;
                 } else {
 			unsucc_counter++;

@@ -174,7 +174,6 @@ void contraction::parallel_fast_contract_clustering(const PartitionConfig& parti
         // build set of new edges
         double avg_degree = (G.number_of_edges() + 0.0) / G.number_of_nodes();
         size_t num_cut_edges = std::min<size_t>(avg_degree * no_of_coarse_vertices, G.number_of_edges() / 10);
-        std::cout << "overall ht capacity\t" << num_cut_edges << std::endl;
 
         growt::uaGrow<parallel::MurmurHash<uint64_t>> new_edges(2 * num_cut_edges);
         CLOCK_END("Init hash tables");
@@ -184,7 +183,6 @@ void contraction::parallel_fast_contract_clustering(const PartitionConfig& parti
 
         NodeID block_size = (NodeID) sqrt(G.number_of_nodes());
         block_size = std::max(block_size, 1000u);
-        std::cout << "block_size\t" << block_size << std::endl;
 
         auto task = [&](uint32_t id) {
                 auto handle = new_edges.get_handle();
@@ -260,7 +258,6 @@ void contraction::parallel_fast_contract_clustering(const PartitionConfig& parti
                                                     [](EdgeID num_edges, EdgeID cur_num_edges) {
                                                             return num_edges + cur_num_edges;
                                                     }, EdgeID(0));
-        std::cout << "num edges\t" << num_edges << std::endl;
         CLOCK_END("Calculate offsets");
 
         CLOCK_START_N;
@@ -322,8 +319,6 @@ void contraction::parallel_fast_contract_clustering_multiple_threads_balls_and_b
         // build set of new edges
         double avg_degree = (G.number_of_edges() + 0.0) / G.number_of_nodes();
         size_t num_cut_edges = std::min<size_t>(avg_degree * no_of_coarse_vertices, G.number_of_edges() / 10);
-        std::cout << "overall ht capacity\t" << num_cut_edges << std::endl;
-        std::cout << "ht capacity\t" << num_cut_edges / num_threads << std::endl;
 
         using concurrent_ht_type = growt::uaGrow<parallel::MurmurHash<uint64_t>>;
         parallel::ParallelVector<concurrent_ht_type> new_edges(num_threads);
@@ -338,7 +333,6 @@ void contraction::parallel_fast_contract_clustering_multiple_threads_balls_and_b
 
         NodeID block_size = (NodeID) sqrt(G.number_of_nodes());
         block_size = std::max(block_size, 1000u);
-        std::cout << "block_size\t" << block_size << std::endl;
 
         auto task_with_buffers = [&](uint32_t) {
                 std::vector<concurrent_ht_type::Handle> handles;
@@ -482,7 +476,6 @@ void contraction::parallel_fast_contract_clustering_multiple_threads_balls_and_b
                                                     [](EdgeID num_edges, EdgeID cur_num_edges) {
                                                             return num_edges + cur_num_edges;
                                                     }, EdgeID(0));
-        std::cout << "num edges\t" << num_edges << std::endl;
         CLOCK_END("Calculate offsets");
 
         CLOCK_START_N;
@@ -811,7 +804,6 @@ void contraction::contract_partitioned(const PartitionConfig& partition_config,
 
         NodeID cur_no_vertices = 0;
 
-        PRINT(std::cout << "contracting a partitioned graph" << std::endl;)
         forall_nodes(G, n){
                                 NodeID node = permutation[n];
                                 //we look only at the coarser nodes
